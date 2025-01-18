@@ -4,31 +4,31 @@ from Tests.plotly3d import *
 
 def menu():
     print("Menu:")
-    print("1. Matrices,Mgd,Mgi")
-    print("2. Visualiser des lois de mouvement temporelles et les graphes associés")
-    print("0. Quitter")
+    print("1. Matrices, Direct Kinematics, Inverse Kinematics")
+    print("2. Visualize Temporal Motion Laws and Associated Graphs")
+    print("0. Exit")
 
-    choix = input("Veuillez choisir une option: ")
-    return choix
+    choice = input("Please choose an option: ")
+    return choice
 
 
 if __name__ == "__main__":
     while True:
-        choix = menu()
-        if choix == "1" :
-            main_analyse()    
-        if choix == "2" :
-            V1 = float(input("Vitesse 1 :\n"))
-            V2 = float(input("Vitesse 2 :\n"))
-            x=float(input("Coordonnée x partagée par A et B :\n"))
-            A = np.array([x, float(input("Coordonnée y pour A :\n")), float(input("Coordonnée z pour A :\n"))])
-            B = np.array([x, float(input("Coordonnée y pour B :\n")), float(input("Coordonnée z pour B :\n"))])
-            K = float(input("Accélération :\n"))
+        choice = menu()
+        if choice == "1":
+            main_analyse()
+        if choice == "2":
+            V1 = float(input("Speed 1:\n"))
+            V2 = float(input("Speed 2:\n"))
+            x = float(input("Shared x-coordinate for A and B:\n"))
+            A = np.array([x, float(input("y-coordinate for A:\n")), float(input("z-coordinate for A:\n"))])
+            B = np.array([x, float(input("y-coordinate for B:\n")), float(input("z-coordinate for B:\n"))])
+            K = float(input("Acceleration:\n"))
             while K <= 0.0:
-                print("L'accéleleration doit etre positive ! Entrez une accéleration positive.")
-                K = float(input("Accélération :\n"))
-            traj(A,B,V1,V2,K, Debug=True)
-            print("Voulez-vous lancer une simulation avec ces données?")
-            k = input("1: Oui 2: Non\n")
-            if k == "1" :
-                bras_rob_model3D_animation(A,B,V1,V2,K)
+                print("Acceleration must be positive! Please enter a positive acceleration.")
+                K = float(input("Acceleration:\n"))
+            traj(A, B, V1, V2, K, Debug=True)
+            print("Would you like to run a simulation with these data?")
+            k = input("1: Yes 2: No\n")
+            if k == "1":
+                bras_rob_model3D_animation(A, B, V1, V2, K)

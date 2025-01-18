@@ -3,115 +3,112 @@ from modele_differentiel import *
 from Robot_repr import bras_rob_model3D
 
 
-# Afficher chaque matrice de transformation pour suivre le calcul et enregistrer dans une liste les matrices
+# Display each transformation matrix to track the calculation and store the matrices in a list
 
 def main_analyse():
-    qu = float(input("Angle de liaison q1 en degrée :\n"))
-    qd = float(input("Angle de liaison q2 en degrée :\n"))
-    qt = float(input("Angle de liaison q3 en degrée :\n"))
+    qu = float(input("Joint angle q1 in degrees:\n"))
+    qd = float(input("Joint angle q2 in degrees:\n"))
+    qt = float(input("Joint angle q3 in degrees:\n"))
 
     q = [qu, qd, qt]
 
     transformation_matrices_calc = generate_transformation_matrices(q, dh, round_p=(5, 1e-6))
     transformation_matrices_show = generate_transformation_matrices(q, dh, round_p=(2, 1e-6))
-    print("Matrice de translation T01:\n", transformation_matrices_show[0])
-    print("\nMatrice de translation T12:\n", transformation_matrices_show[1])
-    print("\nMatrice de translation T23:\n", transformation_matrices_show[2])
-    print("\nMatrice de translation T34:\n", transformation_matrices_show[3])
+    print("Translation matrix T01:\n", transformation_matrices_show[0])
+    print("\nTranslation matrix T12:\n", transformation_matrices_show[1])
+    print("\nTranslation matrix T23:\n", transformation_matrices_show[2])
+    print("\nTranslation matrix T34:\n", transformation_matrices_show[3])
 
-    # Calcul de la transformation complète T(0,4)
-    print(f"\nMatrice de translation T0{len(dh['sigma_i'])} :")
+    # Calculate the complete transformation T(0,4)
+    print(f"\nTranslation matrix T0{len(dh['sigma_i'])} :")
     matrice_T0Tn = matrice_Tn(dh, q)
     matrice_T0Tn_rounded = np.round(matrice_T0Tn, decimals=0)
     print(matrice_T0Tn_rounded.astype(int))
 
-    # Pour ce TP Z0 représente l'axe vertical et Y0 celui de la profondeur
-    print("\nCoordonnées finales grace a matrice T(0,n) en fonction de X0,Y0,Z0:\n", xy_Ot(matrice_T0Tn))
-    rep = int(
-        input("Vous voulez verifier ces valeurs avec une simulation 3D du bras?? \n(1) pour 'oui', (2) pour 'non':"))
+    # For this project, Z0 represents the vertical axis and Y0 the depth axis
+    print("\nFinal coordinates using matrix T(0,n) in terms of X0,Y0,Z0:\n", xy_Ot(matrice_T0Tn))
+    rep = int(input("Would you like to verify these values with a 3D simulation of the arm? \n(1) for 'yes', (2) for 'no':"))
     if rep == 1:
         bras_rob_model3D(Liaisons, q)
     else:
         pass
 
-    print("\nCoordonnées (x, y, z) en mm en fonction des angles de la liste q:")
+    print("\nCoordinates (x, y, z) in mm based on the angles in the q list:")
     Xd_mgd = mgd(q, Liaisons)
     x_mgd = Xd_mgd[0]
     y_mgd = Xd_mgd[1]
     z_mgd = Xd_mgd[2]
-    print("x calculé par le MGD:", x_mgd, "\ny calculé par le MGD:", y_mgd, "\nz calculé par le MGD:", z_mgd, "\n")
+    print("x calculated by MGD:", x_mgd, "\ny calculated by MGD:", y_mgd, "\nz calculated by MGD:", z_mgd, "\n")
     rep = int(input(
-        "Vous voulez verifier ces valeurs en les introduisant comme coordonnées de l'organe terminale et lui appliquant le MGI pour trouver les angles introduits au debut? \n(1) pour 'oui', (2) pour 'non, je met d'autres valeurs', (3) pour 'non, je continue', :"))
+        "Would you like to verify these values by using them as end-effector coordinates and applying MGI to find the initial angles? \n(1) for 'yes', (2) for 'no, I'll input other values', (3) for 'no, I'll continue':"))
     if rep == 1:
         verifier_solutions(Xd_mgd, Liaisons)
-        Rep=int(input("Est ce que vous voulez une représentation de la position du bras pour chaque configuration donnée?\n(1) pour 'oui', (2) pour 'non'"))
+        Rep = int(input("Would you like a representation of the arm's position for each given configuration?\n(1) for 'yes', (2) for 'no'"))
         if Rep == 1:
             sol = mgi(Xd_mgd, Liaisons)
-            for i, solution in enumerate(sol):  # Iterar sobre cada solución
-                bras_rob_model3D(Liaisons, np.degrees(solution))  # Convertir a grados antes de pasar
+            for i, solution in enumerate(sol):  # Iterate over each solution
+                bras_rob_model3D(Liaisons, np.degrees(solution))  # Convert to degrees before passing
             else:
                 pass
     elif rep == 2:
-        print("Veuillez introduire les coordonnées que vous désirés atteindre")
-        x_mgi = float(input("Coordonnée x de l'organe terminale :\n"))
-        y_mgi = float(input("Coordonnée y de l'organe terminale :\n"))
-        z_mgi = float(input("Coordonnée z de l'organe terminale :\n"))
+        print("Please input the desired coordinates to reach")
+        x_mgi = float(input("End-effector x coordinate:\n"))
+        y_mgi = float(input("End-effector y coordinate:\n"))
+        z_mgi = float(input("End-effector z coordinate:\n"))
         Xd = [x_mgi, y_mgi, z_mgi]
         verifier_solutions(Xd, Liaisons)
         Rep = int(input(
-            "Est ce que vous voulez une représentation de la position du bras pour chaque configuration donnée?\n(1) pour 'oui', (2) pour 'non'"))
+            "Would you like a representation of the arm's position for each given configuration?\n(1) for 'yes', (2) for 'no'"))
         if Rep == 1:
             sol = mgi(Xd, Liaisons)
-            for i, solution in enumerate(sol):  # Iterar sobre cada solución
-                bras_rob_model3D(Liaisons, np.degrees(solution))  # Convertir a grados antes de pasar
+            for i, solution in enumerate(sol):  # Iterate over each solution
+                bras_rob_model3D(Liaisons, np.degrees(solution))  # Convert to degrees before passing
             else:
                 pass
     else:
         pass
 
-    # Calcule de Jacobienne geometrique
+    # Calculate geometric Jacobian
     REP = int(
         input(
-            f"Voulez-vous calculer la jacobienne du robot pour la configuration introduite au début ({q[0]}, {q[1]}, {q[2]})? \n(1) pour 'oui', (2) pour 'non': "
+            f"Would you like to calculate the robot's Jacobian for the initial configuration ({q[0]}, {q[1]}, {q[2]})? \n(1) for 'yes', (2) for 'no': "
         )
     )
     if REP == 1:
         J_geo = Jacob_geo(transformation_matrices_calc)
-        print("\nJacobienne geométrique:")
+        print("\nGeometric Jacobian:")
         print(np.array2string(J_geo, formatter={'float_kind': lambda x: f"{x:7.1f}"}))
 
-        # Calcule de Jacobienne analytique
-        # Matrices sous forme analytique
+        # Calculate analytical Jacobian
+        # Matrices in analytical form
         # Jacob_an = Jacob_analytique(q)
-        # print("\nJacobienne analytique:")
+        # print("\nAnalytical Jacobian:")
         # sp.pprint(Jacob_an)
 
-        # MDD pour dq1=0.1, dq2=0.2, dq3=0.3 appliqué à la position initiale q1=0, q2=0 et q3=0
-        print("\nVeuillez introduire les vitesse articulaires que vous souhaitez donner au robot :")
+        # MDD for dq1=0.1, dq2=0.2, dq3=0.3 applied to the initial position q1=0, q2=0, q3=0
+        print("\nPlease input the joint velocities you'd like to apply to the robot:")
         dq1 = float(input("dq1:\n"))
         dq2 = float(input("dq2:\n"))
         dq3 = float(input("dq3:\n"))
         dq = [dq1, dq2, dq3]
         dX = MDD(dq, J_geo)
         dX_vert = sp.Matrix(np.round(np.array(dX).reshape(-1, 1), 1))
-        print("\nValeurs des vitesses linéaires et angulaires du robot pour la configuration demandée(", q[0], ",",
-              q[1], ",", q[2], ") lorsqu'on applique dq1 =",
-              dq1, ", dq2 =", dq2, ", dq3 =", dq3)
+        print("\nValues of the robot's linear and angular velocities for the requested configuration (", q[0], ",", q[1], ",", q[2], ") when applying dq1 =", dq1, ", dq2 =", dq2, ", dq3 =", dq3)
         sp.pprint(dX_vert)
-        # Verification en utilisant MDI inversant la Jacobienne
+        # Verification using MDI inverting the Jacobian
         rep = int(
             input(
-                "Voulez-vous verifier ces valeurs en les introduisant comme vitesses linéaires et angulaires du robot? \n(1) pour 'oui', (2) pour 'non, je met d'autres valeurs', (3) pour 'non, je continue':"))
+                "Would you like to verify these values by using them as the robot's linear and angular velocities? \n(1) for 'yes', (2) for 'no, I'll input other values', (3) for 'no, I'll continue':"))
         if rep == 1:
             dq = MDI(dX, J_geo)
             dq_vert = np.array(dq).reshape(-1, 1)
             print(
-                "\nCalcul GEOMETRIQUE des valeurs des vitesses articulaires du robot pour sa position initiale lorsqu'on applique dx =",
+                "\nGEOMETRIC calculation of the robot's joint velocities for its initial position when applying dx =",
                 dX[0], ", dy=",
                 dX[1], ", dz=", dX[2], ", wx=", dX[3], ", wy=", dX[4], ", wz=", dX[5])
             print(dq_vert)
         elif rep == 2:
-            print("\nVeuillez introduire les 6 valeurs suivantes")
+            print("\nPlease input the following 6 values")
             dx = float(input("dx="))
             dy = float(input("dy="))
             dz = float(input("dz="))
@@ -122,7 +119,7 @@ def main_analyse():
             dq = MDI(dX, J_geo)
             dq_vert = np.array(dq).reshape(-1, 1)
             print(
-                "\nCalcul GEOMETRIQUE des valeurs des vitesses articulaires du robot pour sa position initiale lorsqu'on applique dx =",
+                "\nGEOMETRIC calculation of the robot's joint velocities for its initial position when applying dx =",
                 dx, ", dy=",
                 dy, ", dz=", dz, ", wx=", wx, ", wy=", wy, ", wz=", wz)
             print(dq_vert)
