@@ -2,95 +2,95 @@
 
 ## Description
 
-Ce projet est un modèle complet de robot RRR, incluant les paramètres de modélisation, les simulations et les tests associés. Il permet de réaliser des calculs de modélisation géométrique et cinématique , ainsi que des simulations de trajectoires.
+This project is a comprehensive RRR robot model, including modeling parameters, simulations, and associated tests. It enables geometric and kinematic modeling calculations as well as trajectory simulations.
 
 ---
 
-## Structure des fichiers
+## File Structure
 
 ### `const_v.py`
-- Contient les constantes définissant le robot RRR.
-- Paramètres de distances des axes et paramètres Denavit-Hartenberg (DHM).
+- Contains the constants defining the RRR robot.
+- Axis distance parameters and Denavit-Hartenberg (DH) parameters.
 
 ### `matrices_tn.py`
 - **`matrice_Tim1_Ti(qi, ai_m1, alphai_m1, ri, Debug=False)`**  
-  Calcule la matrice de transformation DH entre deux liaisons successives.
+  Calculates the DH transformation matrix between two successive joints.
 
 - **`generate_transformation_matrices(q, dh, round_p=False, Debug=False)`**  
-  Génère une liste de matrices de transformation \( T(i, i+1) \) à partir des paramètres DH.
+  Generates a list of transformation matrices \( T(i, i+1) \) based on the DH parameters.
 
 - **`matrice_Tn(dh, q, Debug=False)`**  
-  Calcule la matrice globale \( T0,n \) en utilisant les paramètres DH et les angles articulaires \( q \).
+  Calculates the global matrix \( T0,n \) using the DH parameters and joint angles \( q \).
 
 - **`mgd(q, Liaisons, Debug=False)`**  
-  Résout la modélisation géométrique directe.
+  Solves the direct geometric modeling.
 
 - **`mgi(Xd, Liaisons, Debug=False)`**  
-  Résout la modélisation géométrique inverse.
+  Solves the inverse geometric modeling.
 
 - **`xy_Ot(result_matrix)`**  
-  Extrait les coordonnées opérationnelles obtenues à partir de la matrice \( T0,n \).
+  Extracts the operational coordinates obtained from the \( T0,n \) matrix.
 
 ---
 
 ### `modele_differentiel.py`
-- Contient les fonctions liées au modèle différentiel du robot, notamment :
-  - Jacobiennes calculées géométriquement.
-  - Jacobiennes calculées analytiquement.
-  - Modèle Différentiel Direct (MDD).
-  - Modèle Différentiel Inverse (MDI).
+- Contains functions related to the robot's differential model, including:
+  - Jacobians calculated geometrically.
+  - Jacobians calculated analytically.
+  - Direct Differential Model (DDM).
+  - Inverse Differential Model (IDM).
 
 ---
 
 ### `trajectory_generation.py`
 - **`traj(A, B, V1, V2, K, Debug=False)`**  
-  Génère une trajectoire circulaire dans l’espace \( \mathbb{R}^3 \) entre deux points \( A \) et \( B \).  
-  **Arguments :**
-  - `A`, `B` : Points de départ et d'arrivée \([x, y, z]\).
-  - `V1`, `V2` : Vitesses initiale et finale (mm/s).
-  - `K` : Accélération.
-  - `Debug` : Affiche les détails pour le débogage.  
-  **Retourne :**
-  - Trajectoires articulaires, vitesses et positions opérationnelles.
+  Generates a circular trajectory in \( \mathbb{R}^3 \) space between two points \( A \) and \( B \).  
+  **Arguments:**
+  - `A`, `B`: Starting and ending points \([x, y, z]\).
+  - `V1`, `V2`: Initial and final velocities (mm/s).
+  - `K`: Acceleration.
+  - `Debug`: Displays details for debugging.  
+  **Returns:**
+  - Joint trajectories, velocities, and operational positions.
 
 ---
 
 ### `main.py`
-- Fichier principal à exécuter.
-- Permet aux utilisateurs de tester et utiliser toutes les fonctionnalités via des interactions guidées.
+- Main executable file.
+- Allows users to test and use all features through guided interactions.
 
 ---
 
-### Tests et simulations
-- Les fichiers annexes contiennent les simulations et tests nécessaires pour valider le modèle et les fonctions.
+### Tests and Simulations
+- Auxiliary files contain the necessary simulations and tests to validate the model and functions.
 
 ---
 
-## Utilisation
+## Usage
 
-### 1. Cloner le repository
+### 1. Clone the repository
 ```bash
-git clone https://github.com/OlivierCrt/Engineering_Consultancy_Robotic_Modeling
+git clone https://github.com/IsmaTIBU/Engineering_Consultancy_Robotic_Modeling
 ```
-### 2. Installer les dépendances
+### 2. Install dependencies
 ```bash
 pip install -r required.txt
 ```
-### 3. Exécuter le fichier principal
+### 3. Run the main file
 ```bash
 python Test/main.py
 ```
-Si une erreur de module non reconnu intervient :
-Solution 1 :
+If a "module not recognized" error occurs:
+Solution 1:
 ```bash
 python -m Tests.main.py
 ```
-Solution 2 :
-Ajouter le dossier principal à vos variables d’environnement (dépendant de votre OS).
+Solution 2:
+Add the main folder to your environment variables (depending on your OS).
 
 
-### 4. Entrées attendues
-  Unités :
+### 4. Expected Inputs
+  Units :
   
     -Vitesses linéaires : mm/s
     -Vitesses angulaires : rad/s
