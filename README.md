@@ -78,21 +78,12 @@ pip install -r required.txt
 ```
 ### 3. Run the main file
 ```bash
-python Test/main.py
-```
-If a "module not recognized" error occurs:
-Solution 1:
-```bash
-python -m Tests.main.py
-```
-Solution 2:
-Add the main folder to your environment variables (depending on your OS).
-
+python src/main.py
 
 ### 4. Expected Inputs
   Units :
   
-    -Vitesses linéaires : mm/s
-    -Vitesses angulaires : rad/s
-    -Vitesses articulaires : rad/s
+    -Linear velocities : mm/s
+    -Angular velocities : rad/s
+    -Joint velocities : rad/s
     -Distances : mm
