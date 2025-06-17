@@ -1,5 +1,18 @@
+import sys
+import os
+from pathlib import Path
+
+# Arreglar los paths de importación
+current_dir = Path(__file__).parent.absolute()
+root_dir = current_dir.parent  # Subir un nivel desde src
+sys.path.insert(0, str(root_dir))
+sys.path.insert(0, str(current_dir))
+
+# Ahora las importaciones funcionarán
 from main_analyse import main_analyse
-from Tests.plotly3d import *
+from Tests.plotly3d import bras_rob_model3D_animation
+from trajectory_generation import traj
+import numpy as np
 
 
 def menu():
