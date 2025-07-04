@@ -1,4 +1,4 @@
-# Circular Trajectory Generation with a Robot Manipulator - RX160
+# DigiTwin - Circular Trajectory Generation with a Robot Manipulator (Staubli RX160)
 
 ## Description
 
