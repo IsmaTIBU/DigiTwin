@@ -70,7 +70,7 @@ This project is a comprehensive RRR robot model, including modeling parameters, 
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/IsmaTIBU/Engineering_Consultancy_Robotic_Modeling
+git clone https://github.com/IsmaTIBU/DigiTwin.git
 ```
 ### 2. Install dependencies
 ```bash
