@@ -82,7 +82,6 @@ python src/main.py
 ```
 ### 4. Expected Inputs
   Units :
-  
     -Linear velocities : mm/s
     -Angular velocities : rad/s
     -Joint velocities : rad/s
