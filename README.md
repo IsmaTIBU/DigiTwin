@@ -79,7 +79,7 @@ pip install -r required.txt
 ### 3. Run the main file
 ```bash
 python src/main.py
-
+```
 ### 4. Expected Inputs
   Units :
   
