@@ -1,7 +1,8 @@
 # DigiTwin - Génération de Trajectoire Circulaire avec un Manipulateur Robot (Staubli RX160)
-## Description
+### *Pour un aperçu plus complet de mon travail, visitez mon portfolio sur [imonge.es](https://imonge.es/proyecto/2?lang=fr).*
+## Description  
 Ce projet est un modèle complet de robot RRR, incluant les paramètres de modélisation, les simulations et les tests associés. Il permet les calculs de modélisation géométrique et cinématique ainsi que les simulations de trajectoires.
----
+
 ## Structure des Fichiers
 ### `const_v.py`
 - Contient les constantes définissant le robot RRR.
