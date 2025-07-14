@@ -1,6 +1,7 @@
 [Clickez ici pour lire le document traduit au français](fr_README.md)
 
 # DigiTwin - Circular Trajectory Generation with a Robot Manipulator (Staubli RX160)
+### *For a more complete overview of my work, visit my portfolio at [imonge.es](https://imonge.es/proyecto/2?lang=en).*
 
 ## Description
 
